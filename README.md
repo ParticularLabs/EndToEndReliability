@@ -8,18 +8,18 @@
   
 * Explain failure modes/effects
 * Call failed but data isn't lost
-* Call failed but data is lost
-* Ergo; a non success http response means that you don't know what happened to your data
-* Even not losing data might be an issue since the client doesn't know that is was stored?
+* Call failed and data is lost
+* Ergo, a non-success http response means that you don't know what happened to your data
+* Even not losing data might be an issue since the client doesn't know that it was stored?
 
 
 ### I get it, my data might be lost, is that a problem?
    
 * What's the repercussion of the failure?
-* It Depends on the business case
-* Some scenarios like charging credit cards cause customers to be reluctant to "try again" being afraid to be double charged and 
+* It depends on the business case
+* Some scenarios like charging credit cards cause customers to be reluctant to "try again" being afraid to be double charged
    
-### Ok, I get that this is a problem, how to find out that I'm affected?
+### Ok, I get that this is a problem, how do I find out if I'm affected?
   
 * Failures in the server log of http requests that are making updates 
 * Not all failures are visible in the server logs => timeout on the way back to the client
