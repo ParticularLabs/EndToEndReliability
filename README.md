@@ -5,12 +5,21 @@
 
 
 ### Data going from the client to the server can get lost
-  
-* Explain failure modes/effects
-* Call failed but data isn't lost
-* Call failed and data is lost
-* Ergo, a non-success http response means that you don't know what happened to your data
-* Even not losing data might be an issue since the client doesn't know that it was stored?
+
+Getting data from the browser to the web-server is exposed to the fallacies of distributed computing. Lots have been written on that topic but in short:
+
+>things can go wrong, horribly wrong 
+
+The request might never reach the server with a http timeout as a result, it might reach the server but something bad might happen before your data is safely stored with a http 500 Internal Server error as a result. It doesn't end there, things might go wrong after data is stored, same 500 will greet the client. Are we done? Nope, something might go wrong on the way back to the client, http timeout again. As you can see lots of things can happen but from a client perspective we can summarize it pretty simple as: 
+
+>any non success status code means that you have no idea what happened to your data, it might be safe or it might not 
+
+From a server perspective its simple as well:
+
+>you know if data is stored or not but you won't know if the client is aware of the fact that it was successfully stored or not
+
+In essence you can easily get into situations where the client and the server is in disagreement weather data is persisted or not. If we can choose not having lost the data is probably the better alternative but having the client think its data is lost can also lead to problems. We'll talk about the problems next.
+
 
 
 ### I get it, my data might be lost, is that a problem?
