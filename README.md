@@ -14,10 +14,11 @@
 
 
 ### I get it, my data might be lost, is that a problem?
-   
-* What's the repercussion of the failure?
-* It depends on the business case
-* Some scenarios like charging credit cards cause customers to be reluctant to "try again" being afraid to be double charged
+
+As always, the correct answer is "it depends". If you are building a new social media site you might, at least initially, be OK with losing user's updates from time to time. Some users might be annoyed by this but no big deal.
+
+If, on the other hand, you are processing credit card payments and your site stops responding in the middle of the payment process users might be a little bit reluctant to just open a new browser tab and try again. Everybody loves Porsche but having two of them delivered to your driveway might a bit too much for your bank account.
+
    
 ### Ok, I get that this is a problem, how do I find out if I'm affected?
   
