@@ -10,7 +10,7 @@ Getting data from the browser to the web-server is exposed to the fallacies of d
 
 >things can go wrong, horribly wrong 
 
-The request might never reach the server with a http timeout as a result, it might reach the server but something bad might happen before your data is safely stored with a http 500 Internal Server error as a result. It doesn't end there, things might go wrong after data is stored, same 500 will greet the client. Are we done? Nope, something might go wrong on the way back to the client, http timeout again. As you can see lots of things can happen but from a client perspective we can summarize it pretty simple as: 
+The request might never reach the server with a http timeout as a result, it might reach the server but something bad might happen before your data is safely stored with a http 500 Internal Server error as a result. It doesn't end there, things might go wrong after data is stored, same 500 will greet the client. Are we done? Nope, something might go wrong on the way back to the client, http timeout again. As you can see lots of things can happen but from a client perspective we can summarize as: 
 
 >any non success status code other than 4XX means that you have no idea what happened to your data, it might be safe or it might not 
 
