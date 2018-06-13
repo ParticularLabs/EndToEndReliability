@@ -14,7 +14,7 @@ The request might never reach the server with a http timeout as a result, it mig
 
 >any non success status code other than 4XX means that you have no idea what happened to your data, it might be safe or it might not 
 
-From a server perspective its simple as well:
+From a server perspective can be summarized as:
 
 >you know if data is stored or not but you won't know if the client is aware of the fact that it was successfully stored or not
 
