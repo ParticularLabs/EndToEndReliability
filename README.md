@@ -21,14 +21,14 @@
    
 ### Ok, I get that this is a problem, how to find out that I'm affected?
   
-Monitoring web server logs for failures related to http requests modifying data is a good start. Http 4XX or 5XX errors related to PUT, POST, DELETE indicates that there might that there might be issues. 
+Monitoring web server logs for failures related to http requests modifying data is a good start. Http 4XX or 5XX errors related to PUT, POST, DELETE indicate that there might be issues. 
 
-Logs need to be configured and looked at regular basis. Certain web servers like IIS have logging configured but using console applications to host your web api might not.
+Logs need to be configured and monitored at a regular basis. Certain web servers like IIS come with logging configured out-of-the-box but when using a console application to host your web api you need to take care of this yourself.
 
-The server won't be able to catch all issue though, problems with the response on the way back to the client will not be visible in the server logs and needs to caught by the client instead.
+The server won't be able to catch all the issues, though. Problems with the response on the way back to the client will not be visible in the server logs and need to caught by the client instead.
 
-Having logs on the client side is only useful if they can be viewed so sending them to a centralized place for analysis is essential. There are plenty of tools like Raygun, AppInsights etc available to make this easy.
+Having logs on the client side is only useful if they can be viewed so sending them to a centralized place for analysis is essential. There are plenty of tools, like Raygun, AppInsights and others, available to make this easy.
 
-While we only talked about browser to web server scenarious so far, all applications using http like web apps, SPA's, MVC are exposed. It doesn't even have to be a web app, a smart client calling a web api, B2B integrations over http, etc would be exposed in a similar way. In those scenarios you might not even be in control over the client which further complicates things.  
+While we only talked about browser to web server scenarious so far, all applications using http like web apps, SPAs, MVC are exposed. It doesn't even have to be a web app, a smart client calling a web api, B2B integrations over http, etc would be exposed in a similar way. In those scenarios you might not even be in control over the client which further complicates things.  
 
 ### So what's next? Retrying? Is it safe to retry? Stay tuned for the next episode...
