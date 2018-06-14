@@ -31,13 +31,14 @@ If, on the other hand, you are processing credit card payments and your site sto
    
 ### Ok, I get that this is a problem, how do I find out if I'm affected?
   
-* Failures in the server log of http requests that are making updates 
-* Not all failures are visible in the server logs => timeout on the way back to the client
-* Do you even have logs? are you checking them?
-* Catching and logging http related exceptions in the client
-* Sending client side exceptions to things like Raygun
-* Happens to all types of web apps , SPA's, webform, mvc
-* The client might not be owned by you, eg. API gateway for B2B
-all the messy support interactions to deal with that
+Monitoring web server logs for failures related to http requests modifying data is a good start. Http 4XX or 5XX errors related to PUT, POST, DELETE indicate that there might be issues. 
+
+Logs need to be configured and monitored at a regular basis. Certain web servers like IIS come with logging configured out-of-the-box but when using a console application to host your web api you need to take care of this yourself.
+
+The server won't be able to catch all the issues, though. Problems with the response on the way back to the client will not be visible in the server logs and need to caught by the client instead.
+
+Having logs on the client side is only useful if they can be viewed so sending them to a centralized place for analysis is essential. There are plenty of tools, like Raygun, AppInsights and others, available to make this easy.
+
+While we only talked about browser to web server scenarious so far, all applications using http like web apps, SPAs, MVC are exposed. It doesn't even have to be a web app, a smart client calling a web api, B2B integrations over http, etc would be exposed in a similar way. In those scenarios you might not even be in control over the client which further complicates things.  
 
 ### So what's next? Retrying? Is it safe to retry? Stay tuned for the next episode...
