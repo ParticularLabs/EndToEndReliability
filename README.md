@@ -21,15 +21,14 @@
    
 ### Ok, I get that this is a problem, how to find out that I'm affected?
   
- 
-Monitoring web server logs for failures related to http requests modifying data. Any 4xx or 5xx errors related to PUT, POST, DELETE requests indicate that probably such issue occurred in the application. 
-
-Not every failure will be visible in the web server logs. Lost responses from web server to the client will not be logged. Lack of errors in the log does not mean that such problems never took place. Due to that exceptions should be also logged on the client side. 
+Monitoring web server logs for failures related to http requests modifying data is a good start. Http 4XX or 5XX errors related to PUT, POST, DELETE indicates that there might that there might be issues. 
 
 Logs need to be configured and looked at regular basis. Certain web servers like IIS have logging configured but using console applications to host your web api might not.
 
-Having logs on the client side is only useful if they can be viewed. Sending it to some centralized place allowing for analysis is essential.
-The issue of web reliability happen in every application that uses http requests like web apps, SPA's, MVC but also when calling web api etc. This issue is also present in integration scenarios when a client is not owned by you, and simply calling http api.  
+The server won't be able to catch all issue though, problems with the response on the way back to the client will not be visible in the server logs and needs to caught by the client instead.
 
+Having logs on the client side is only useful if they can be viewed so sending them to a centralized place for analysis is essential. There are plenty of tools like Raygun, AppInsights etc available to make this easy.
+
+While we only talked about browser to web server scenarious so far, all applications using http like web apps, SPA's, MVC are exposed. It doesn't even have to be a web app, a smart client calling a web api, B2B integrations over http, etc would be exposed in a similar way. In those scenarios you might not even be in control over the client which further complicates things.  
 
 ### So what's next? Retrying? Is it safe to retry? Stay tuned for the next episode...
