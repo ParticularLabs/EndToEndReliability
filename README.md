@@ -30,8 +30,6 @@ If, on the other hand, you are processing credit card payments and your site sto
 
 
 ### Ok, I get that this is a problem, how do I find out if I'm affected?
-  
-Monitoring web server logs for failures related to HTTP requests which modify data is a good start. HTTP 4XX or 5XX errors related to PUT, POST, or DELETE indicate that there might be issues. 
 
 Logs need to be configured and monitored on a regular basis. Certain web servers like IIS come with logging configured out of the box, but when using a console application to host your web API, you need to take care of this yourself.
 
@@ -42,3 +40,24 @@ Logs on the client are only useful if they can be viewed, so sending them to a c
 While we've only talked about browser to web server scenarios so far, all applications using HTTP such as web apps, SPA's, or MVC are vulnerable. It doesn't even have to be a web app. A smart client calling a web API, B2B integrations over HTTP, etc. are vulnerable in a similar way. In those scenarios you might not even be in control over the client, which further complicates things.  
 
 ### So what's next? Retrying? Is it safe to retry? Stay tuned for the next episode...
+
+## Iteration 2 - The retry
+
+### Poor lonely client
+
+From the client perspective one can determine if the request was successful or not. The sample code to do that might look as follows:
+
+```js
+$http.post('/user/add', user).then(successFunction, response => {
+    log(`Error has occured while adding a user, status code: ${response.status}`);
+});
+```
+
+This piece of code makes a post call to 'user/add' URL passing some user as a parameter, and handle every error by calling a method called log with a information what status code was returned. Different JS frameworks will have different API's but the concept would be the same.
+
+From the client perspective there are two things that we can do knowing that an error has happened: inform a user about it and stop everything or do a retry.
+
+### Concerning retries
+Doing a retry on the client end seems simple but it is an acknowledgment of a problem that always existed: duplicate request can happen in most systems. By acknowledging that and preparing your system for handling duplicate requests, retry becomes a viable solution to certain problems.
+
+Let's have a look how a retry might look like.
