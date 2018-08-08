@@ -43,9 +43,9 @@ While we've only talked about browser to web server scenarios so far, all applic
 
 ## Iteration 2 - The retry
 
-### Poor lonely client
+### Detecting the "oh shit" moments
 
-From the client perspective one can determine if the request was successful or not. The sample code to do that might look as follows:
+Clients need to determine if the request was successful or not. This might look as follows:
 
 ```js
 $http.post('/user/add', user).then(successFunction, response => {
@@ -53,12 +53,13 @@ $http.post('/user/add', user).then(successFunction, response => {
 });
 ```
 
-This piece of code makes a post call to 'user/add' URL passing some user as a parameter, and handle every error by calling a method called log with a information what status code was returned. Different JS frameworks will have different API's but the concept would be the same.
+This piece of code makes a post call to some API and should the call fail `log()` is called with the corresponding http status. Different JS frameworks will have different API's but the concept would be the same.
 
-From the client perspective there are two things that we can do knowing that an error has happened: inform a user about it and stop everything or do a retry.
+Knowing that the call failed leaves the client with two options: let the user know and ask how to proceed or retry the operation.
 
-### Concerning retries
-Doing a retry on the client end seems simple but it is an acknowledgment of a problem that always existed: duplicate request can happen in most systems. By acknowledging that and preparing your system for handling duplicate requests, retry becomes a viable solution to certain problems.
+### Everyone, especially web servers, deserves a second chance
+
+As we already talked about lots can go wrong when travelling the internet, as for all hard things in life not giving up when there is a setback is key. Having the client retry seems simple but surfaces a problem that likely always existed: duplicate request can happen in most systems. By acknowledging this and being prepared for duplicate requests makes retryinga viable solution to transient problems.
 
 Let's have a look how a retry might look like.
 
