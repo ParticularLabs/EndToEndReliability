@@ -61,3 +61,27 @@ From the client perspective there are two things that we can do knowing that an 
 Doing a retry on the client end seems simple but it is an acknowledgment of a problem that always existed: duplicate request can happen in most systems. By acknowledging that and preparing your system for handling duplicate requests, retry becomes a viable solution to certain problems.
 
 Let's have a look how a retry might look like.
+
+```js
+Promise.retry = function(fn) {
+    return new Promise(function(resolve){        
+        var attempt = function() {           
+          fn().then(resolve)
+            .catch(function(){                       
+            attempt();
+          });            
+        };
+        attempt();
+    });
+};
+```
+
+Such retry can be used in the following manner:
+
+```js
+Promise.retry($http.post('/user/add', user)).then(function(){console.log('done')});
+```
+
+
+
+
