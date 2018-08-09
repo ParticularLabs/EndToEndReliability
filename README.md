@@ -59,7 +59,7 @@ Knowing that the call failed leaves the client with two options: let the user kn
 
 ### Everyone, especially web servers, deserves a second chance
 
-As we already talked about lots can go wrong when travelling the internet, as for all hard things in life not giving up when there is a setback is key. Having the client retry seems simple but surfaces a problem that likely always existed: duplicate request can happen in most systems. By acknowledging this and being prepared for duplicate requests makes retryinga viable solution to transient problems.
+As we already talked about lots can go wrong when travelling the internet, as for all hard things in life not giving up when there is a setback is key. Having the client retry seems simple but surfaces a problem that likely always existed: duplicate request can happen in most systems. By acknowledging this and being prepared for duplicate requests makes retrying a viable solution to transient problems.
 
 Let's have a look how a retry might look like.
 
@@ -83,6 +83,10 @@ Such retry can be used in the following manner:
 Promise.retry($http.post('/user/add', user)).then(function(){console.log('done')});
 ```
 
+Of course we can't retry forever. But then, how long should we try? That's one of these "it depends" kind of questions. When designing the retry mechanism we need to take into account both the technical aspects of the server implementation (what are its availability characteristics) and the business requirements (e.g. how competitive or collaborative is the domain). We need to collaborate closely with the interaction desginers as the number and delay of retries is going to affect how the user interface is designed. 
 
+If the server side is highly available and we don't expect frequent connection problems we can have relatively low limit on the maximum number of retries and short delays between consecutive attempts. In this case we probably don't need a graphic representation of a retry process that is in progress but we do want to notify the user when it eventually fails.
+
+At the opposite end of the spectrum, if we expect long periods of server unavailability (either because of the server itself or limited network connectivity between the client and the server), we should use larger maximum number of attempts and also longer delays. In this case it is more likely that there will be several concurrent retry processes happening at any given point in time (e.g. when the client device lost connection to the network). In this case it might be a good idea to visualise the pending requests in some form so that users are aware what part of their work has not yet been submitted to the server. 
 
 
