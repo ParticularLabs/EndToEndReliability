@@ -9757,24 +9757,19 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 Promise.retry = function (fn, i) {
-    return new Promise(function (resolve, reject) {
-        var error;
+    return new Promise(function (resolve) {
         var attempt = function attempt() {
-            if (i <= 0) {
-                reject(error);
-            } else {
-                fn().then(resolve).catch(function (e) {
-                    i--;
-                    error = e;
-                    attempt();
-                });
-            }
+            fn().then(resolve).catch(function () {
+                attempt();
+            });
         };
         attempt();
     });
 };
 
-Promise.retry(_axios2.default.post.bind(null, 'http://localhost:61666/api/order', 'An order'), 5).then(function () {
+Promise.retry(function () {
+    return _axios2.default.post('http://localhost:61666/api/order', 'An order');
+}, 5).then(function () {
     console.log('done');
 });
 
