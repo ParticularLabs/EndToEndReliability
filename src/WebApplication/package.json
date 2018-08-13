@@ -1,7 +1,7 @@
 {
   "name": "endtoendreliability",
   "version": "0.0.1",
-  "description": "Web sample showing a way to reliabily make a http request",
+  "description": "Web sample showing a way to reliably get data from the webbrowser to the server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

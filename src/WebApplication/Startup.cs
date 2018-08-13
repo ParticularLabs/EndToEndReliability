@@ -25,9 +25,7 @@ namespace WebApplication
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
-
-            
+            app.UseStaticFiles();            
         }
     }
 }

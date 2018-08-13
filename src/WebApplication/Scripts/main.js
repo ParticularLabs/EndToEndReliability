@@ -24,4 +24,3 @@ function placeAnOrder() {
 }
 
 document.getElementById('placeOrder').onclick = placeAnOrder;
-

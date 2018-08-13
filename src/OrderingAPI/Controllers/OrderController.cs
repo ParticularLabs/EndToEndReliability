@@ -10,14 +10,12 @@ namespace OrderingAPI.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        // GET api/order
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
             return new[] { "value1", "value2" };
         }
 
-        // POST api/order
         [HttpPost]
         public async Task Post(string value)
         {
@@ -28,8 +26,6 @@ namespace OrderingAPI.Controllers
             var magicNumber = random.Next(0, 100);
             if (magicNumber <= 80)
                 throw new InvalidOperationException();
-
         }
-
     }
 }
