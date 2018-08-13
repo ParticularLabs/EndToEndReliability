@@ -93,7 +93,7 @@ On the other hand, if we expect long periods of server unavailability (either be
 
 All this retrying is all good but remember that Porche? Having a few of those delivered might not be what the customer really wanted. 
 
-So how do we make sure that repeted requests to the server doesn't cause issues? The answer lies on a concept call idempotency, both hard to spell and to get right :)
+So how do we make sure that repeted requests to the server doesn't cause issues? The answer lies in a concept call idempotency, both hard to spell and to get right :)
 
 We'll sort this out next.
 
