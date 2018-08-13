@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace OrderingAPI.Controllers
@@ -17,12 +19,14 @@ namespace OrderingAPI.Controllers
 
         // POST api/order
         [HttpPost]
-        public void Post(string value)
+        public async Task Post(string value)
         {
             var random = new Random();
-            var magicNumber = random.Next(0, 100);
+            
+            await Task.Delay(random.Next(1, 5) * 1000);
 
-            if(magicNumber <= 80)
+            var magicNumber = random.Next(0, 100);
+            if (magicNumber <= 80)
                 throw new InvalidOperationException();
 
         }

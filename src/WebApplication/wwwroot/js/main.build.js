@@ -9756,10 +9756,14 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-Promise.retry = function (fn, i) {
+Promise.retry = function (fn) {
     return new Promise(function (resolve) {
+        var count = 0;
         var attempt = function attempt() {
             fn().then(resolve).catch(function () {
+                count++;
+                document.getElementById("placeOrderStatus").innerHTML = 'Failed to place an order retrying the operation...';
+                document.getElementById("placeOrderCount").innerHTML = count;
                 attempt();
             });
         };
@@ -9767,11 +9771,16 @@ Promise.retry = function (fn, i) {
     });
 };
 
-Promise.retry(function () {
-    return _axios2.default.post('http://localhost:61666/api/order', 'An order');
-}, 5).then(function () {
-    console.log('done');
-});
+function placeAnOrder() {
+    document.getElementById("placeOrderStatus").innerHTML = document.getElementById("placeOrderCount").innerHTML = '';
+    Promise.retry(function () {
+        return _axios2.default.post('http://localhost:61666/api/order', 'An order');
+    }).then(function () {
+        document.getElementById("placeOrderStatus").innerHTML = 'Order has been placed.';
+    });
+}
+
+document.getElementById('placeOrder').onclick = placeAnOrder;
 
 /***/ }),
 /* 336 */
