@@ -10,12 +10,6 @@ namespace OrderingAPI.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new[] { "value1", "value2" };
-        }
-
         [HttpPost]
         public async Task Post(string value)
         {
