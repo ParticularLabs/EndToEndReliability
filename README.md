@@ -53,7 +53,7 @@ $http.post('/user/add', user).then(successFunction, response => {
 });
 ```
 
-This piece of code makes a post call to some API and should the call fail `log()` is called with the corresponding http status. Different JS frameworks will have different API's but the concept would be the same.
+The code makes a post call to some API and should the call fail `log()` is called with the corresponding http status. Different JS frameworks will have different API's but the concept would be the same.
 
 Knowing that the call failed leaves the client with two options: let the user know and ask how to proceed or retry the operation.
 
@@ -85,8 +85,18 @@ Promise.retry($http.post('/user/add', user)).then(function(){console.log('done')
 
 Of course we can't retry forever. But then, how long should we try? That's one of these "it depends" kind of questions. When designing the retry mechanism we need to take into account both the technical aspects of the server implementation (what are its availability characteristics) and the business requirements (e.g. how competitive or collaborative is the domain). We need to collaborate closely with the interaction desginers as the number and delay of retries is going to affect how the user interface is designed. 
 
-If the server side is highly available and we don't expect frequent connection problems we can have relatively low limit on the maximum number of retries and short delays between consecutive attempts. In this case we probably don't need a graphic representation of a retry process that is in progress but we do want to notify the user when it eventually fails.
+If the server is highly available and we don't expect frequent connection problems we can have a relatively low limit on the maximum number of retries and keep the delay between consecutive attempts short. In this case we probably don't need a graphical representation of the retry process but we do want to notify the user when it eventually fails.
 
-At the opposite end of the spectrum, if we expect long periods of server unavailability (either because of the server itself or limited network connectivity between the client and the server), we should use larger maximum number of attempts and also longer delays. In this case it is more likely that there will be several concurrent retry processes happening at any given point in time (e.g. when the client device lost connection to the network). In this case it might be a good idea to visualise the pending requests in some form so that users are aware what part of their work has not yet been submitted to the server. 
+On the other hand, if we expect long periods of server unavailability (either because of the server itself or limited network connectivity between the client and the server), we should use a larger maximum number of attempts and also longer delays. In this case it is more likely that there will be several concurrent retry processes happening at any given time (e.g. when the client device lost connection to the network). In this case it might be a good idea to visualise the pending requests to keep the user in the loop.
+
+### There is no free lunch
+
+All this retrying is all good but remember that Porche? Having a few of those delivered might not be what the customer really wanted. 
+
+So how do we make sure that repeted requests to the server doesn't cause issues? The answer lies in a concept called idempotency, both hard to spell and to get right :)
+
+We'll sort this out next.
+
+
 
 
