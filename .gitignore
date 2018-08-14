@@ -99,3 +99,6 @@ src/scaffolding.config
 .idea/
 *.sln.iml
 PromotedSqlScripts/
+
+# npm
+node_modules
