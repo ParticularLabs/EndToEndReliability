@@ -11,7 +11,7 @@
     "url": "git+https://github.com/ParticularLabs/EndToEndReliability.git"
   },
   "author": "Particular Software",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ParticularLabs/EndToEndReliability/issues"
   },
