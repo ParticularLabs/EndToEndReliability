@@ -59,7 +59,7 @@ Knowing that the call failed leaves the client with two options: let the user kn
 
 ### Everyone, especially web servers, deserves a second chance
 
-As we already talked about lots can go wrong when dd the internet, as for all hard things in life not giving up when there is a setback is key. Having the client retry seems simple but surfaces a problem that likely always existed: duplicate request can happen in most systems. By acknowledging this and being prepared for duplicate requests makes retrying a viable solution to transient problems.
+As we already talked about lots can go wrong when travelling the internet, as for all hard things in life not giving up when there is a setback is key. Having the client retry seems simple but surfaces a problem that likely always existed: duplicate request can happen in most systems. By acknowledging this and being prepared for duplicate requests makes retrying a viable solution to transient problems.
 
 Let's have a look what a retry might look like.
 
@@ -91,8 +91,6 @@ On the other hand, if we expect long periods of server unavailability (either be
 
 ### There is no free lunch
 
-All this retrying is all good but remember that Porche? Having a few of those delivered might not be what the customer really wanted. 
+Retrying is all good but remember those multiple Porches on the driveway? Avoiding retries to cause unintended side effects like ordering that car twice lies in a concept called idempotency, both hard to spell and to get right :)
 
-So how do we make sure that repeated requests to the server don't cause issues? The answer lies in a concept called idempotency, both hard to spell and to get right :)
-
-We'll sort this out next.
+We'll sort that out next.
