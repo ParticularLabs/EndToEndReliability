@@ -48,8 +48,8 @@ While we've only talked about browser to web server scenarios so far, all applic
 Clients need to determine if the request was successful or not. This might look as follows:
 
 ```js
-$http.post('/user/add', user).then(successFunction).catch(response => {
-    log(`Error has occured while adding a user, status code: ${response.status}`);
+$http.post('/api/order', order).then(successFunction).catch(response => {
+    log(`Error has occured while placing an order, status code: ${response.status}`);
 });
 ```
 
@@ -80,7 +80,7 @@ Promise.retry = function(fn) {
 Such retry can be used in the following manner:
 
 ```js
-Promise.retry($http.post('/user/add', user)).then(function(){console.log('done')});
+Promise.retry($http.post('/api/order', order)).then(function(){console.log('done')});
 ```
 
 Of course we can't retry forever. But then, how long should we try? That's one of these "it depends" kind of questions. When designing the retry mechanism we need to take into account both the technical aspects of the server implementation (what are its availability characteristics) and the business requirements (e.g. how competitive or collaborative is the domain). We need to collaborate closely with the interaction desginers as the number and delay of retries is going to affect how the user interface is designed. 
