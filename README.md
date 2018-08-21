@@ -61,7 +61,7 @@ Knowing that the call failed leaves the client with two options: let the user kn
 
 As we already talked about lots can go wrong when travelling the internet, as for all hard things in life not giving up when there is a setback is key. Having the client retry seems simple but surfaces a problem that likely always existed: duplicate request can happen in most systems. By acknowledging this and being prepared for duplicate requests makes retrying a viable solution to transient problems.
 
-Let's have a look what a retry might look like.
+Let's have a look what a very naive implementation of retry might look like.
 
 ```js
 Promise.retry = function(fn) {
@@ -76,6 +76,8 @@ Promise.retry = function(fn) {
     });
 };
 ```
+This piece of code retries until succeeds and there is no delay between the tries. 
+
 
 Such retry can be used in the following manner:
 
