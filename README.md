@@ -30,8 +30,6 @@ If, on the other hand, you are processing credit card payments and your site sto
 
 
 ### Ok, I get that this is a problem, how do I find out if I'm affected?
-  
-Monitoring web server logs for failures related to HTTP requests which modify data is a good start. HTTP 4XX or 5XX errors related to PUT, POST, or DELETE indicate that there might be issues. 
 
 Logs need to be configured and monitored on a regular basis. Certain web servers like IIS come with logging configured out of the box, but when using a console application to host your web API, you need to take care of this yourself.
 
@@ -42,3 +40,59 @@ Logs on the client are only useful if they can be viewed, so sending them to a c
 While we've only talked about browser to web server scenarios so far, all applications using HTTP such as web apps, SPA's, or MVC are vulnerable. It doesn't even have to be a web app. A smart client calling a web API, B2B integrations over HTTP, etc. are vulnerable in a similar way. In those scenarios you might not even be in control over the client, which further complicates things.  
 
 ### So what's next? Retrying? Is it safe to retry? Stay tuned for the next episode...
+
+## Iteration 2 - The retry
+
+### Detecting the "oh crap" moments
+
+Clients need to determine if the request was successful or not. This might look as follows:
+
+```js
+$http.post('/api/order', order).then(successFunction).catch(response => {
+    log(`Error has occured while placing an order, status code: ${response.status}`);
+});
+```
+
+The code makes a post call to some API and should the call fail `log()` is called with the corresponding http status. Different JavaScript frameworks will have different APIs but the concept would be the same.
+
+Knowing that the call failed leaves the client with two options: let the user know and ask how to proceed or retry the operation.
+
+### Everyone, especially web servers, deserves a second chance
+
+As we already talked about lots can go wrong when travelling the internet, as for all hard things in life not giving up when there is a setback is key. Having the client retry seems simple but surfaces a problem that likely always existed: duplicate request can happen in most systems. By acknowledging this and being prepared for duplicate requests makes retrying a viable solution to transient problems.
+
+Let's have a look what a very naive implementation of retry might look like.
+
+```js
+Promise.retry = function(fn) {
+    return new Promise(function(resolve){        
+        var attempt = function() {           
+          fn().then(resolve)
+            .catch(function(){                       
+            attempt();
+          });            
+        };
+        attempt();
+    });
+};
+```
+This piece of code retries until succeeds and there is no delay between the tries. 
+
+
+Such retry can be used in the following manner:
+
+```js
+Promise.retry($http.post('/api/order', order)).then(function(){console.log('done')});
+```
+
+Of course we can't retry forever. But then, how long should we try? That's one of these "it depends" kind of questions. When designing the retry mechanism we need to take into account both the technical aspects of the server implementation (what are its availability characteristics) and the business requirements (e.g. how competitive or collaborative is the domain). We need to collaborate closely with the interaction desginers as the number and delay of retries is going to affect how the user interface is designed. 
+
+If the server is highly available and we don't expect frequent connection problems we can have a relatively low limit on the maximum number of retries and keep the delay between consecutive attempts short. In this case we probably don't need a graphical representation of the retry process but we do want to notify the user if all of the retry attempts fail.
+
+On the other hand, if we expect long periods of server unavailability (either because of the server itself or limited network connectivity between the client and the server), we should use a larger maximum number of attempts and also longer delays. In this case it is more likely that there will be several concurrent retry processes happening at any given time (e.g. when the client device lost connection to the network). In this case it might be a good idea to visualise the pending requests to keep the user in the loop.
+
+### There is no free lunch
+
+Retrying is all good but remember those multiple Porches on the driveway? Avoiding retries to cause unintended side effects like ordering that car twice lies in a concept called idempotency, both hard to spell and to get right :)
+
+We'll sort that out next.
