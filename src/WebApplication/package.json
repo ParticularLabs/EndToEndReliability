@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/ParticularLabs/EndToEndReliability#readme",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.1"
   },
   "devDependencies": {
     "json-loader": "^0.5.7",
